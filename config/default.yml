@@ -1,0 +1,5 @@
+dockerSocket: '/var/run/docker.sock'
+etcd:
+  hosts: localhost:2379
+  dir: registry
+host: none

@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- '10'
+- '8'
+env:
+  global:
+  - secure: CyVMMibarsQpjbNmiC0+TTw5f0znUsSMzO4P97vWbOTdJjokAb1hbxXT6fhQbEVhwxsTMp04kpBQDycVMMaRJzrNWjFBu7J2QaUzxMF8yRpDRy96nxwiT5aBbEJO5iAPRiFpMroSDGMBwhc+V8r6Fa2Q0VuvRb9rYWb4t+JmwMOnWiRTdoEXpEseBL/NOgrXxoo7ahCi/lHE+ASL1IyRXdX4G/TqEh6c48O3sPO3k3eYR5kT3h5lkI3f2c8BjvL1ppOIlQ8S2pMoFfzBtLxftYg4pcuGopbDtU1mvFAr7goIkjkNfHf51Wc1ftH5H5roHzF3y4N3hmmuW13acDnn8zbuMQn5t8UBynv02rnCRXzv9cTY+BC+BnaqEugT2yL4k7TRZzoj7Fiv43+hKiB0T9TcSxRth7Vsqi7EjxbKEKT5VRbKwpMaaG45D4cprs5rb1jIkyvVpHcp966htMmHChFeMjiVfs2yL1Whvtxrk1KJOJE9uFWEgPSZztI92YG6XGVoio9vqgJLpxhCGaH5wCYClYcaR4uF3817O6YUretVs2i3yEtVoI6P4GJbBD94vyL/apUgxtEqNDSGzfvTfShvgMc5BcElWRxxNVxw3ZPQSFxmAVN+BnHt4BPsNC8fmAdUlcfRLbCljzZ8Y/cTDLw0o86QpVcZALW6BAxWZbI= # DOCKER_EMAIL
+  - secure: mpCbisc06oyVnscC03ApkKh3Wa2R2VwuBFS6tH/N85leAULqhAlY/5oEyk1VVIZr+QJCWfwOAcygOMS86zUi79ZzxvRgqiVN/s1W819qWDupvJ2/YbNrqXIcTLQsNbNlRvlFWN4Tyd8MQqzzL0IUGDLV+RxC1YkMU/MGTgkl+tlnT81/wPr0Owf+GgKrS/WK8D2XY6hvHWC6hmhvzJ8f8A6YhLzboOq55mTw1v5nuE7rQBl56V0miLcssVn7n0/7ge3JItWJwfqFzmadWmcHy6FnorV21XUqgPPgzPfK+gAJk1rSFSpgW4eH4Y0AMF1mCd4xpfD4oynXZgDXLS89paa3Qh99iVLqB7DXDKc5aUaccu8Hw5WQ5JAN8VuCXrrykP2zWpVe+odPUdqKedbIgLpKyonxloQ/NlGb11cNlhE4aRvNME4x5b+xD3s9IbVwVTDs0FhZBduDYBDSlYAAEsqpWdVD1g0+GGbez7wvIN+q6YSZMDWYq2IAKNH1L9WVKRxrO0n8awX74t/5yQXYzTBKmgHp5SsTvPMluQIkYM+Jk46Kl0WK5+MYtFzi3VPur8a58Xi+If+x0IveqqiUtFc4ddEudWfOP+m+cUMdlfZvIa5+Mm0RXWlu1IrD2pGKs/DrPqmxoflIQrVx+cnR364SonoNNPj3SUAhandB7lE= # DOCKER_USER
+  - secure: TekqJ26ASckUv2lHSXl/Pgm7u3hvU5EBq1+VyM1wj4xG4QH1YikGGol/orG/lVrlKMu4W2Iqf9TDMSMIzwTpEpmGDx+BWOdSCCxOhsOeOJsd3OAZTjWuheisjWTF4jOia8aJX9NrpPUSdvgqlqDqqGRFAtVb74p0ybTT3emjjDCCq9KjY2bSWL54JVlwJ/CGr6ZDc7sOsJs7dEfJ+NdVdBnqelu4eujROI7ILaz89Vdzb7zJuIMR4oTPo801ZzqLXHGaQHbrgDXCfMqEoCkxzMK8uYDhPzXDmeIMs8B6YvwrH10NWZbynqwSH+yTONQ2dCVFLUpDvEzq5L//FDr3wJmde/hUhRlQkuxY2O2TynBhSllkr+NyllcQP7aLIJWbFNawzr8SsrDni9zYjBhdgAIjpN2/IWTOv1fYLuHKjQyvzpNxACdRtH0znFh6OfnO84/VrE18BNOfsK85meKVO3XW+bCkbwhLbAG+Qmj9HuAoVOYvqoVZO3LI/YYPgzbeyIcbojipwOjG3J8qvyBgdQIGwnRYEc2UOnU/63qVtDUgRhuJXenr+KbCLY1jT5kEvPDZkD6Ddo7JKJNbiaoZ+cY56u3FZ5XtP36/E7lxKk93PrczQj/hLR+97nL7h1ScT5D9Iav1AszinkpDgUWFytFlhc3ErDoaqXjYeM37rDc= # DOCKER_PASSWORD
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=entrecode/service-registrator
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$TAG .
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then docker tag $REPO:$TAG $REPO:`node -e "console.log(require('./package.json').version)"` ; fi
+  - docker push $REPO

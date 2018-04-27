@@ -1,0 +1,44 @@
+{
+  "name": "ec.service-registrator",
+  "version": "0.0.1",
+  "description": "This service registers and updates running docker container into an etcd cluster.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint -p .",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entrecode/ec.service-registrator.git"
+  },
+  "keywords": [
+    "docker",
+    "registry",
+    "etcd",
+    "service"
+  ],
+  "engines": {
+    "node": "^8.11.1"
+  },
+  "author": "Simon Scherzinger <scherzinger@entrecode.de>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/entrecode/ec.service-registrator/issues"
+  },
+  "homepage": "https://github.com/entrecode/ec.service-registrator#readme",
+  "dependencies": {
+    "@types/config": "0.0.34",
+    "@types/dockerode": "^2.5.4",
+    "config": "^1.30.0",
+    "dockerode": "^2.5.5",
+    "js-yaml": "^3.11.0",
+    "node-etcd": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.6",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0",
+    "typescript": "^2.8.3"
+  }
+}

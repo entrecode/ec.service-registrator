@@ -1,0 +1,5 @@
+.*
+Dockerfile
+src
+node_modules
+ts*.json
