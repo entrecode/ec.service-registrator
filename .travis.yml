@@ -6,7 +6,7 @@ env:
   global:
     secure: GVf+MurV/VMCAoqkATf4LqgIq8WkOWZZUYifH2rjRXt33ueFx5Phyo88yQTMM38iYO6zeHrvPW4Vl8LloFIU8SNOsiR4FyQiQw7dsTHBhtQgPQqXMrP0v76xfwaKDw1q7sfwCvEpvD2lr/jrpt1VyBI7hI8jZHuegT+ZoYuobyVKCrpkLWwICMo/cfG35rVfHA5tXblv/UDcsFW6h1wNz01S+pvNNKaBwMSl8L9FVwsNrsrjNCa0gAZoF36ATipZoG1F0BbMw+8MTHgzL00zp32NpdCossqOUrf7Zmlt49yF1nBb+Cm0QAmR/8TA+SahgW10ED1B4ujQQI6OOwYcSLimUqXLAj/ykqNeGnpfy1CdVO9kDfvy4Jk6w1h2w5No6+5zZ0c1whiAnknAKQ77AL4Oa4I2a/vz1D+rAlwgncBpdJ+l1nvbA2IzVqoctFaWypP7KBs/7LdRsQnuCbqa5bu+O3gWYD+mUvKuruHzVUKodxiMh0+KlTV/1OPyU/dyT9lQRotI9lde7sLF39114d0pr5/6oAX+L3HI/sGo7AYlxvU6Ds20RzC7sWBFJVObNQgzy9hGm+Z7juQnrMi0bJo4yMszQZvW7sUo5ytd5m6lZIdJQIGIMIq2sHPom65cXZ/Od4MTEcCEdetvRozkScTY9cvh3+/hcDHaG4HAbak= #DOCKER_PASSWORD
 after_success:
-- docker login -e info@entrecode.de -u entrecode -p $DOCKER_PASSWORD
+- docker login -u entrecode -p $DOCKER_PASSWORD
 - export REPO=entrecode/service-registrator
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
   ; fi`
