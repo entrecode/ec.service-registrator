@@ -118,7 +118,7 @@ async function addContainer(container) {
     container.NetworkSettings.IPAddress,
   );
 
-  await Promise.all(Object.keys(container.NetworkSettings.Ports).map(async (port) => {
+  await Promise.all(Object.keys(container.NetworkSettings.Ports || []).map(async (port) => {
     const [portNo, proto] = port.split('/');
     const portInfo = container.NetworkSettings.Ports[port];
 
@@ -145,7 +145,7 @@ async function removeContainer(container) {
     { recursive: true },
   );
 
-  await Promise.all(Object.keys(container.Config.Labels).map(async label =>
+  await Promise.all(Object.keys(container.Config.Labels || []).map(async label =>
     etcd.delAsync(`${config.get('etcd.dir')}/labels/${label}/${container.Id}`, { recursive: true })));
 
   await etcd.delAsync(`${config.get('etcd.dir')}/containers/${container.Id}`, { recursive: true });

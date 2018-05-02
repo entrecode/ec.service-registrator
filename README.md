@@ -10,8 +10,8 @@ Start is as a docker container in detached mode.
 docker run -d \
   --name=registrator \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e EC_ETCD_HOSTS=localhost:2379 \
-  -e EC_HOST=MyServerName \
+  -e EC_REGISTRATOR_ETCD_HOSTS=localhost:2379 \
+  -e EC_REGISTRATOR_HOST=MyServerName \
   entrecode/service-registrator:latest
 ```
 
