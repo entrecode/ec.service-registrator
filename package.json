@@ -28,14 +28,14 @@
   },
   "homepage": "https://github.com/entrecode/ec.service-registrator#readme",
   "dependencies": {
-    "@types/config": "0.0.34",
-    "@types/dockerode": "^2.5.4",
     "config": "^1.30.0",
     "dockerode": "^2.5.5",
     "js-yaml": "^3.11.0",
     "node-etcd": "^5.1.0"
   },
   "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/dockerode": "^2.5.4",
     "@types/node": "^9.6.6",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0",

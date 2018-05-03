@@ -1,5 +1,3 @@
-import { statSync } from 'fs';
-
 import docker from './lib/docker';
 import etcd from './lib/etcd';
 

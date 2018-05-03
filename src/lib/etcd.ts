@@ -1,7 +1,7 @@
 import * as config from 'config';
 import * as Etcd from 'node-etcd';
+import * as fs from 'fs';
 import { promisify } from 'util';
-import { create } from 'domain';
 
 const etcdHosts: string = config.get('etcd.hosts');
 const etcdOpts: any = {
@@ -9,9 +9,12 @@ const etcdOpts: any = {
 };
 
 if (config.has('etcd.cert')) {
-  etcdOpts.cert = config.get('etcd.cert');
-  etcdOpts.ca = config.get('etcd.ca');
-  etcdOpts.key = config.get('etcd.key');
+  etcdOpts.cert = fs.readFileSync(config.get('etcd.cert'));
+  etcdOpts.key = fs.readFileSync(config.get('etcd.key'));
+
+  if (config.has('etcd.ca')) {
+    etcdOpts.ca = fs.readFileSync(config.get('etcd.ca'));
+  }
 }
 
 const etcd = new Etcd(etcdHosts.split(',').map(x => x.trim()), etcdOpts);
@@ -21,7 +24,7 @@ etcd.delAsync = promisify(etcd.del);
 
 async function init() {
   try {
-    const dir = await etcd.mkdirAsync(config.get('etcd.dir'));
+    await etcd.mkdirAsync(config.get('etcd.dir'));
     console.debug(`etcd: created dir '${config.get('etcd.dir')}'`);
   } catch (err) {
     if (err.errorCode !== 102) {
