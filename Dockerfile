@@ -1,4 +1,4 @@
-FROM node:10.0
+FROM node:10.0-alpine
 LABEL maintainer="Simon Scherzinger <scherzinger@entrecode.de>"
 
 RUN mkdir -p /usr/src/app \
@@ -7,6 +7,8 @@ WORKDIR /usr/src/app
 ENTRYPOINT [ "/sbin/tini", "--" ]
 CMD [ "npm", "start" ]
 
-COPY package* /usr/src/app/
-RUN npm i --only=prod && npm cache clean --force
-COPY . /usr/src/app
+COPY package* ./
+RUN apk add --no-cache --virtual .node-deps python make g++ \
+  && npm i --only=prod && npm cache clean --force \
+  && apk del .node-deps
+COPY . .
