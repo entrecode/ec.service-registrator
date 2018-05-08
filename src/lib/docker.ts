@@ -30,9 +30,38 @@ async function watch(onContainerUp, onContainerDown) {
       docker
         .getContainer(event.id)
         .inspect()
+        .then((container: any) => {
+          if ('Health' in container.State && container.State.Health.Status !== 'healthy') {
+            console.info('Start event for unhalthy container ignored');
+            return;
+          }
+
+          return onContainerUp(container);
+        });
+    })
+    .on('health_status: healthy', (event) => {
+      docker
+        .getContainer(event.id)
+        .inspect()
         .then(container => onContainerUp(container));
     })
+    .on('health_status: unhealthy', (event) => {
+      try {
+        // TODO only work with container id
+        // TODO see if we have entries for this id
+        // TODO load keys recursively and search for id, then delete keys with id in them
+        docker
+          .getContainer(event.id)
+          .inspect()
+          .then(container => onContainerDown(container));
+      } catch (e) {
+        // eat those errors - nom nom
+      }
+    })
     .on('die', (event) => {
+      // TODO only work with container id
+      // TODO see if we have entries for this id
+      // TODO load keys recursively and search for id, then delete keys with id in them
       docker
         .getContainer(event.id)
         .inspect()
