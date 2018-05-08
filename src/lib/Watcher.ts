@@ -20,9 +20,20 @@ export default class Watcher extends EventEmitter {
       this.emit('connect');
 
       stream.on('data', (chunk) => {
-        const event = JSON.parse(chunk.toString('utf8'));
-        this.emit('event', event);
-        this.emit(event.Action, event);
+        try {
+          const events = chunk.toString('utf8').trim().split('\n');
+          events.forEach((eventString) => {
+            const event = JSON.parse(eventString);
+            // ignore exec_* events
+            if (event.Action.indexOf('exec_') === -1) {
+              console.log(event.Action);
+              this.emit('event', event);
+              this.emit(event.Action, event);
+            }
+          });
+        } catch (e) {
+          console.warn(`Unable to parse event: ${e.message}`);
+        }
       });
 
       stream.on('end', () => {
