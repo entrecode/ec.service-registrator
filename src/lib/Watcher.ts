@@ -26,7 +26,6 @@ export default class Watcher extends EventEmitter {
             const event = JSON.parse(eventString);
             // ignore exec_* events
             if (event.Action.indexOf('exec_') === -1) {
-              console.log(event.Action);
               this.emit('event', event);
               this.emit(event.Action, event);
             }
