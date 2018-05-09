@@ -2,6 +2,10 @@
 
 > This service registers and updates running docker container into an etcd cluster.
 
+![Travis branch](https://img.shields.io/travis/entrecode/ec.service-registrator/develop.svg)
+![MicroBadger Size](https://img.shields.io/microbadger/image-size/entrecode/service-registrator:develop.svg)
+![MicroBadger Size](https://img.shields.io/microbadger/layers/entrecode/service-registrator:develop.svg)
+
 ## Running ec.service-registrator
 
 Start is as a docker container in detached mode.
